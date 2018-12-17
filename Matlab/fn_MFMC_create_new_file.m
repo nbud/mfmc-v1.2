@@ -36,9 +36,17 @@ fn_MFMC_utilities([], [], [], template);
 try
     fid = H5F.create(fname, 'H5F_ACC_TRUNC', 'H5P_DEFAULT', 'H5P_DEFAULT');
     H5F.close(fid);
-catch
+catch ME
+    % XXX - Plan A: wrap the base exception into another exception
+%     msgID = 'MFMC:CreateFileError';
+%     msg = 'Failed to create MFMC file.';
+%     myException = MException(msgID, msg);
+%     myException = addCause(myException, ME);
+%     throw(myException);
+    
+    % XXX - Plan B: print our message and rethrow exception
     fprintf('Failed to create MFMC file.\n');
-    return
+    rethrow(ME)
 end
 
 %Write the version and template_filename attributes to file
